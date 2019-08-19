@@ -1,0 +1,15 @@
+# Sample configuration file
+
+[default]
+requirements = internal-test/requirements.1.in, internal-test/requirements.2.in
+index_url = https://pypi.org/simple/
+# For a private index, e.g. Nexus: index_url = http://nexus.example.com:8081/repository/pypi-all/simple
+base_branch = master
+branch_prefix = piptegrator/
+pr_prefix = PIPTEGRATOR:
+label_prs = piptegrator
+close_prs = True
+teamcity_tgt_root = piptegrator_output
+### The following are used if not set in the environment
+vcsrooturl = git@git.example.com:examplepacakge.git
+gitlab_server = https://git.example.net

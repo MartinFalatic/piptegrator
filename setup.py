@@ -30,6 +30,7 @@ setup(
     copyright='Copyright (c) 2019',
     license='MIT License',
     keywords='pip pip-compile pip-tools requirements git gitlab github pyup',
+    url='https://github.com/MartinFalatic/piptegrator',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Intended Audience :: Developers',
@@ -49,8 +50,8 @@ setup(
     install_requires=[
         'configparser;python_version<"3.6"',
         'pip-tools',
-        'python-gitlab',
         'pygithub',
+        'python-gitlab',
         'requests',
     ],
     extras_require={},

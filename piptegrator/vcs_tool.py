@@ -182,7 +182,7 @@ def converge_pyup_and_diff_data(diffs):
 
         data['is_internal'] = False
         if not reqs[reqname]['metadata'] and not reqs[reqname]['changelog']:
-            if data['links']['Link']:
+            if 'Link' in data['links']:
                 data['notes'] = 'no Pyup data but link(s) specified (internal package?)'
                 data['is_internal'] = True
             else:

@@ -1,7 +1,7 @@
 
 PKGNAME = 'piptegrator'
 
-VERSION = '1.2.0'
+VERSION = '1.2.1'
 
 DESCRIPTION = 'Piptegrator - Tools for managing requirements-driven projects'
 

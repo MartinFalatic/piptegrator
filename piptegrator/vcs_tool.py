@@ -178,7 +178,7 @@ def converge_pyup_and_diff_data(diffs):
             for subdata in reqs[reqname]['metadata']['links']:
                 data['links'][subdata[0]] = subdata[1]
         if reqs[reqname]['parsed_urls']:
-            data['links']['Link'] = ' '.join(reqs[reqname]['urls'])
+            data['links']['Link'] = ' '.join(reqs[reqname]['parsed_urls'])
 
         data['is_internal'] = False
         if not reqs[reqname]['metadata'] and not reqs[reqname]['changelog']:

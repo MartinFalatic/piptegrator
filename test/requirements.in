@@ -1,0 +1,6 @@
+black>18.0
+pip-tools>=5.1.2
+requests>=2.23.0  # Special version from https://www.example.com/requests-test
+six>=1.16.0
+twine>=3.4.1
+urllib3>=1.25.9

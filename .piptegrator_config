@@ -1,7 +1,7 @@
 # Sample configuration file
 
 [default]
-requirements = internal-test/requirements.1.in, internal-test/requirements.2.in
+requirements = test/requirements.in
 index_url = https://pypi.org/simple/
 # For a private index, e.g. Nexus: index_url = http://nexus.example.com:8081/repository/pypi-all/simple
 base_branch = master

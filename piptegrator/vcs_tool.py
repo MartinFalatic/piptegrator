@@ -151,10 +151,12 @@ def parse_diff_info(diffs):
                     if 'reqname' in parsed_line:
                         reqname = parsed_line['reqname']
                         if reqname not in reqs:
-                            reqs[reqname] = {}
-                            reqs[reqname]['parsed_lines'] = []
-                            reqs[reqname]['changes'] = {}
-                            reqs[reqname]['parsed_urls'] = set()
+                            reqs[reqname] = {
+                                'parsed_lines': [],
+                                'changes': {},
+                                'parsed_urls': set(),
+                                'metadata': {},
+                            }
                         reqs[reqname]['parsed_lines'].append(parsed_line)
                         reqs[reqname]['changes'][change] = parsed_line['version_val']
                         reqs[reqname]['parsed_urls'].update(common.parse_urls_from_string(req_line))

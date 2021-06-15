@@ -79,7 +79,7 @@ def pyup_api_call(reqname, endpoint, pyup_api_key):
         },
     )
     if r.status_code == 403:
-        print('Warning: Invalid Pyup API key, skipping metadata', file=sys.stderr)
+        print('Warning: Invalid Pyup API key, skipping metadata and changelogs', file=sys.stderr)
         return None
     if r.status_code == 200:
         return r
@@ -155,7 +155,8 @@ def parse_diff_info(diffs):
                                 'parsed_lines': [],
                                 'changes': {},
                                 'parsed_urls': set(),
-                                'metadata': {},
+                                'metadata': {},  # If pyup is unavailable
+                                'changelog': '',  # If pyup is unavailable
                             }
                         reqs[reqname]['parsed_lines'].append(parsed_line)
                         reqs[reqname]['changes'][change] = parsed_line['version_val']

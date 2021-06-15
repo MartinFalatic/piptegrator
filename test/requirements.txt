@@ -9,7 +9,7 @@ appdirs==1.4.4
 attrs==21.2.0
 # via black
 black==19.10b0
-# via -r .\test/requirements.in
+# via -r ./test/requirements.in
 bleach==3.3.0
 # via readme-renderer
 certifi==2021.5.30
@@ -21,9 +21,7 @@ click==8.0.1
 #   black
 #   pip-tools
 colorama==0.4.4
-# via
-#   click
-#   twine
+# via twine
 docutils==0.17.1
 # via readme-renderer
 idna==2.10
@@ -39,15 +37,13 @@ packaging==20.9
 pathspec==0.8.1
 # via black
 pip-tools==5.1.2
-# via -r .\test/requirements.in
+# via -r ./test/requirements.in
 pkginfo==1.7.0
 # via twine
 pygments==2.9.0
 # via readme-renderer
 pyparsing==2.4.7
 # via packaging
-pywin32-ctypes==0.2.0
-# via keyring
 readme-renderer==29.0
 # via twine
 regex==2021.4.4
@@ -56,14 +52,14 @@ requests-toolbelt==0.9.1
 # via twine
 requests==2.23.0  # Special version from https://www.example.com/requests-test
 # via
-#   -r .\test/requirements.in
+#   -r ./test/requirements.in
 #   requests-toolbelt
 #   twine
 rfc3986==1.5.0
 # via twine
 six==1.16.0
 # via
-#   -r .\test/requirements.in
+#   -r ./test/requirements.in
 #   bleach
 #   pip-tools
 #   readme-renderer
@@ -72,12 +68,12 @@ toml==0.10.2
 tqdm==4.61.1
 # via twine
 twine==3.4.1
-# via -r .\test/requirements.in
+# via -r ./test/requirements.in
 typed-ast==1.4.3
 # via black
 urllib3==1.25.9
 # via
-#   -r .\test/requirements.in
+#   -r ./test/requirements.in
 #   requests
 webencodings==0.5.1
 # via bleach

@@ -10,7 +10,10 @@ import getpass
 import os
 import re
 import sys
+
 from collections import OrderedDict
+from pathlib import Path
+
 from . import __config__ as config
 
 
@@ -104,10 +107,23 @@ def get_basenames(requirements):
 
 def get_configfile_data(configfile_name=config.CONFIGFILE):
     config_data = configparser.ConfigParser()
-    try:
-        config_data.read(configfile_name)
-    except FileNotFoundError:
-        exit_with_error('Error: config file {} not found, exiting'.format(configfile_name))
+    config_file = Path(configfile_name)
+    if config_file.is_file():
+        config_data.read(config_file)
+    else:
+        print('Warning: config file {} not found, using default parameters'.format(configfile_name))
+        config_data['default'] = {
+            'requirements': 'test/requirements.in',
+            'index_url': 'https://pypi.org/simple/',
+            'base_branch': 'master',
+            'branch_prefix': 'piptegrator/',
+            'pr_prefix': 'PIPTEGRATOR:',
+            'label_prs': 'piptegrator',
+            'close_prs': 'True',
+            'teamcity_tgt_root': 'piptegrator_output',
+            'vcsrooturl': 'git@git.example.com:examplepacakge.git',
+            'gitlab_server': 'https://git.example.net',
+        }
     return config_data
 
 

@@ -49,7 +49,13 @@ def trim_relative_filename(filename):
 
 
 def parse_requirement_file_line(line):
-    line = line.strip()
+    line = line.rstrip()
+    m_with = RE_WITH_COMMENT.match(line)
+    if m_with and not m_with.group(1).strip():
+        # Preserve indentation of comment-only lines!
+        pass
+    else:
+        line = line.lstrip()
     m_with = RE_WITH_COMMENT.match(line)
     m_without = RE_WITHOUT_COMMENT.match(line)
     if (m_with or m_without) and line[0].isalpha():
@@ -105,25 +111,27 @@ def get_basenames(requirements):
     return list(OrderedDict.fromkeys([os.path.splitext(r)[0] for r in requirements]))
 
 
-def get_configfile_data(configfile_name=config.CONFIGFILE):
+def get_configfile_data(configfile_name=config.CONFIGFILE, allow_defaults=True):
     config_data = configparser.ConfigParser()
     config_file = Path(configfile_name)
     if config_file.is_file():
         config_data.read(config_file)
-    else:
+    elif allow_defaults:
         print('Warning: config file {} not found, using default parameters'.format(configfile_name))
         config_data['default'] = {
-            'requirements': 'test/requirements.in',
+            'requirements': 'requirements.in',
             'index_url': 'https://pypi.org/simple/',
-            'base_branch': 'master',
-            'branch_prefix': 'piptegrator/',
-            'pr_prefix': 'PIPTEGRATOR:',
-            'label_prs': 'piptegrator',
-            'close_prs': 'True',
-            'teamcity_tgt_root': 'piptegrator_output',
-            'vcsrooturl': 'git@git.example.com:examplepacakge.git',
-            'gitlab_server': 'https://git.example.net',
+            # 'base_branch': 'master',
+            # 'branch_prefix': 'piptegrator/',
+            # 'pr_prefix': 'PIPTEGRATOR:',
+            # 'label_prs': 'piptegrator',
+            # 'close_prs': 'True',
+            # 'teamcity_tgt_root': 'piptegrator_output',
+            # 'vcsrooturl': 'git@git.example.com:examplepacakge.git',
+            # 'gitlab_server': 'https://git.example.net',
         }
+    else:
+        exit_with_error('Error: config file {} not found, exiting'.format(configfile_name))
     return config_data
 
 

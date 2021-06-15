@@ -324,7 +324,7 @@ def setup(args=None):
 
     PARAMS['teamcity_mode'] = args.teamcity_mode
 
-    config_data = common.get_configfile_data()
+    config_data = common.get_configfile_data(allow_defaults=False)
 
     # Env vars take precedence over config vars
     PARAMS['gitlab_server'] = os.environ.get('gitlab_server')

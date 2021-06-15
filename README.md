@@ -48,6 +48,7 @@ pip install -U build twine && \
 rm -rf dist build *.egg-info && \
 python -m build --wheel && \
 ls -al dist && \
+unzip -l dist/*.whl && \
 pip uninstall -y piptegrator && \
 pip install dist/*.whl
 ```

@@ -176,7 +176,7 @@ def converge_pyup_and_diff_data(diffs):
         data['delta'] = format_changes(reqs[reqname]['changes'])
 
         data['links'] = {}
-        if reqs[reqname]['metadata']:
+        if reqs[reqname]['metadata'] and 'links' in reqs[reqname]['metadata']:
             for subdata in reqs[reqname]['metadata']['links']:
                 data['links'][subdata[0]] = subdata[1]
         if reqs[reqname]['parsed_urls']:

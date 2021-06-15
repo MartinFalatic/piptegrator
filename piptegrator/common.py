@@ -17,10 +17,6 @@ from pathlib import Path
 from . import __config__ as config
 
 
-PY2 = sys.version_info[0] == 2
-PY3 = sys.version_info[0] == 3
-
-
 RE_WITH_COMMENT = re.compile(r'^([^#]+)(.*)$')
 RE_WITHOUT_COMMENT = re.compile(r'^([^#]+)()$')
 RE_GET_VERSION = re.compile(r'^(.*?)\s*(;|~=|<|<=|>|>=|==|===|\!=)(.*)$')
@@ -119,16 +115,8 @@ def get_configfile_data(configfile_name=config.CONFIGFILE, allow_defaults=True):
     elif allow_defaults:
         print('Warning: config file {} not found, using default parameters'.format(configfile_name))
         config_data['default'] = {
-            'requirements': 'requirements.in',
-            'index_url': 'https://pypi.org/simple/',
-            # 'base_branch': 'master',
-            # 'branch_prefix': 'piptegrator/',
-            # 'pr_prefix': 'PIPTEGRATOR:',
-            # 'label_prs': 'piptegrator',
-            # 'close_prs': 'True',
-            # 'teamcity_tgt_root': 'piptegrator_output',
-            # 'vcsrooturl': 'git@git.example.com:examplepacakge.git',
-            # 'gitlab_server': 'https://git.example.net',
+            'requirements': config.DEFAULT_REQUIREMENTS_IN,
+            'index_url': config.DEFAULT_INDEX_URL,
         }
     else:
         exit_with_error('Error: config file {} not found, exiting'.format(configfile_name))
@@ -156,8 +144,6 @@ def exit_with_error(error_text, error_code=1, parser=None):
 def set_param_from_config(params, config_data, config_parent, config_item, default_value, item_type=str):
     if item_type == str:
         params[config_item] = config_data.get(config_parent, config_item, fallback=default_value)
-        if PY2:
-            params[config_item] = params[config_item].encode('ascii')
     elif item_type == bool:
         params[config_item] = config_data.getboolean(config_parent, config_item, fallback=default_value)
     elif item_type == int:

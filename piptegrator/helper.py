@@ -157,7 +157,6 @@ def setup(args):
     if len(PARAMS['requirements']) != len(set(PARAMS['requirements'])):
         common.exit_with_error('Error: Duplicate requirements specified', parser=parser)
 
-
     common.set_param_from_config(PARAMS, config_data, 'default', 'index_url', None, item_type=str)
     if args.index_url:
         PARAMS['index_url'] = args.index_url

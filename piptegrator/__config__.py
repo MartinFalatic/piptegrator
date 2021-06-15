@@ -1,7 +1,7 @@
 
 PKGNAME = 'piptegrator'
 
-VERSION = '1.3.0rc1'
+VERSION = '1.3.0rc2'
 
 DESCRIPTION = 'Piptegrator - Tools for managing requirements-driven projects'
 
@@ -24,6 +24,8 @@ PIP_COMPILE_ENV_MODS = {
 DEFAULT_SRC_ROOT = '.'
 DEFAULT_TGT_ROOT = '.'
 
+DEFAULT_REQUIREMENTS_IN = 'requirements.in'
+DEFAULT_INDEX_URL = 'https://pypi.org/simple/'
 DEFAULT_BASE_BRANCH = 'develop'
 DEFAULT_BRANCH_PREFIX = 'piptegrator/'
 DEFAULT_PR_PREFIX = 'PIPTEGRATOR:'

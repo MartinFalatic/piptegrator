@@ -126,11 +126,10 @@ def setup(args):
                         help='Don\'t modify the pip-compile environment settings')
     parser.add_argument('--teamcity-mode', action='store_true',
                         help='TeamCity mode (alternate output dir)')
-    parser.add_argument('--requirements', action='append',
-                        help='Requirements in file (overrides config if present)')
+    parser.add_argument('--requirements', type=str,
+                        help='Comma-delimited requirement.in file(s) (overrides config file)')
     try:
         args, extra_args = parser.parse_known_args(args)
-        print(extra_args)
     except BaseException as e:
         raise e
 
@@ -140,7 +139,6 @@ def setup(args):
     PARAMS['teamcity_mode'] = args.teamcity_mode
     PARAMS['upgrade'] = args.upgrade
     PARAMS['noenvmods'] = args.noenvmods
-    PARAMS['requirements'] = args.requirements
     PARAMS['extra_args'] = extra_args
 
     config_data = common.get_configfile_data()
@@ -149,12 +147,16 @@ def setup(args):
     if not PARAMS['noenvmods']:
         PARAMS['pip_compile_env'].update(config.PIP_COMPILE_ENV_MODS)
 
-    if not PARAMS['requirements']:
-        common.set_param_from_config(PARAMS, config_data, 'default', 'requirements', None, item_type=str)
-        if PARAMS['requirements']:
-            PARAMS['requirements'] = [r.strip() for r in PARAMS['requirements'].split(',')]
-        else:
-            common.exit_with_error('Error: Requirements must be specified in the config file', parser=parser)
+    common.set_param_from_config(PARAMS, config_data, 'default', 'requirements', None, item_type=str)
+    if args.requirements:
+        PARAMS['requirements'] = args.requirements
+    if PARAMS['requirements']:
+        PARAMS['requirements'] = [r.strip() for r in PARAMS['requirements'].split(',')]
+    else:
+        common.exit_with_error('Error: Requirements must be specified on the command line or in the config file', parser=parser)
+    if len(PARAMS['requirements']) != len(set(PARAMS['requirements'])):
+        common.exit_with_error('Error: Duplicate requirements specified', parser=parser)
+
 
     common.set_param_from_config(PARAMS, config_data, 'default', 'index_url', None, item_type=str)
     if args.index_url:

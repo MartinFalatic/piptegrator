@@ -94,7 +94,7 @@ def regen_file(root_dir, basename, extension, requirements, metadata):
         for req in requirements[basename]:
             if 'other' in req:
                 line = req['other']
-                if line.startswith('#    {} '.format(config.PIP_COMPILE_CMD)):
+                if config.PIP_COMPILE_CMD in line.split('#', 1)[0]:
                     line = '#    {}  # --help for options'.format(PARAMS['this_script'])
             else:
                 reqname = req['reqname']

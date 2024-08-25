@@ -1,17 +1,14 @@
-"""
-
-"""
-
-from __future__ import print_function
-
 import argparse
 import os
 import shutil
 import subprocess
 import sys
+
 from collections import OrderedDict
+
 from . import __config__ as config
 from . import common
+
 
 PARAMS = {}
 
@@ -87,14 +84,14 @@ def merge_and_check_metadata(metadata):
     return rc
 
 
-def regen_file(root_dir, basename, extension, requirements, metadata):
+def regen_file(pip_compile_cmd, root_dir, basename, extension, requirements, metadata):
     filename = '{}.{}'.format(os.path.join(root_dir, basename), extension)
     print('-- Regenerating', filename)
     with open(filename, 'w') as fhandle:
         for req in requirements[basename]:
             if 'other' in req:
                 line = req['other']
-                if line.startswith('#    {} '.format(config.PIP_COMPILE_CMD)):
+                if line.startswith('#    {} '.format(pip_compile_cmd)):
                     line = '#    {}  # --help for options'.format(PARAMS['this_script'])
             else:
                 reqname = req['reqname']
@@ -126,6 +123,8 @@ def setup(args):
                         help='Don\'t modify the pip-compile environment settings')
     parser.add_argument('--teamcity-mode', action='store_true',
                         help='TeamCity mode (alternate output dir)')
+    parser.add_argument('--legacy-tools', action='store_true',
+                        help='Transitional - use pip-tools instead of uv)')
     parser.add_argument('--requirements', type=str,
                         help='Comma-delimited requirement.in file(s) (overrides config file)')
     try:
@@ -139,6 +138,7 @@ def setup(args):
     PARAMS['teamcity_mode'] = args.teamcity_mode
     PARAMS['upgrade'] = args.upgrade
     PARAMS['noenvmods'] = args.noenvmods
+    PARAMS['legacy_tools'] = args.legacy_tools
     PARAMS['extra_args'] = extra_args
 
     config_data = common.get_configfile_data()
@@ -179,6 +179,7 @@ def setup(args):
     print('    Source root =', PARAMS['src_root'])
     print('    Target root =', PARAMS['tgt_root'])
     print('    TeamCity mode =', PARAMS['teamcity_mode'])
+    print('    Legacy Tools =', PARAMS['legacy_tools'])
     print('    Extra args =', PARAMS['extra_args'])
     print()
 
@@ -193,6 +194,11 @@ def main(scriptname, args):
     reqs_txt = {}
     reqs_meta = {}
 
+    if PARAMS['legacy_tools']:
+        pip_compile_cmd = config.PIP_COMPILE_CMD_LEGACY
+    else:
+        pip_compile_cmd = config.PIP_COMPILE_CMD
+
     print('-- Consistency check and rewrites begin')
     print()
 
@@ -204,7 +210,7 @@ def main(scriptname, args):
             if os.path.isfile(in_basename + '.txt'):
                 print('-- Copying {} -> {}'.format(in_basename + '.txt', out_basename + '.txt'))
                 shutil.copy(in_basename + '.txt', out_basename + '.txt')
-        subcommand = [config.PIP_COMPILE_CMD, '--output-file', out_basename + '.txt', in_basename + '.in'] + PARAMS['extra_args']
+        subcommand = pip_compile_cmd + ['--output-file', out_basename + '.txt', in_basename + '.in'] + PARAMS['extra_args']
         print('-- Executing', subcommand)
         print()
         rc = subprocess.call(subcommand, env=PARAMS['pip_compile_env'])
@@ -222,7 +228,14 @@ def main(scriptname, args):
     print()
 
     for basename in PARAMS['basenames']:
-        rc = regen_file(root_dir=PARAMS['tgt_root'], basename=basename, extension='txt', requirements=reqs_txt, metadata=reqs_meta)
+        rc = regen_file(
+            pip_compile_cmd=pip_compile_cmd,
+            root_dir=PARAMS['tgt_root'],
+            basename=basename,
+            extension='txt',
+            requirements=reqs_txt,
+            metadata=reqs_meta,
+        )
         all_rcs.append(rc)
         print()
 

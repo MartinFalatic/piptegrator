@@ -1,9 +1,3 @@
-"""
-
-"""
-
-from __future__ import print_function
-
 import configparser
 import errno
 import getpass
@@ -22,11 +16,7 @@ RE_WITHOUT_COMMENT = re.compile(r'^([^#]+)()$')
 RE_GET_VERSION = re.compile(r'^(.*?)\s*(;|~=|<|<=|>|>=|==|===|\!=)(.*)$')
 RE_GET_VARIANT = re.compile(r'^(.*)\[(.*)\]$')
 
-RE_VCS_ROOT_PARSE = re.compile('^.*:(.*)\\.git$')
 RE_DIFF_LINE = re.compile('^([+-])([^-+]+.*)$')
-
-PROTECTED_BRANCHES = {'master', 'dev', 'develop', 'qa', 'stage', 'demo'}
-BRANCH_PREFIX_VALID_ENDINGS = {'.', '/', '-', '_'}
 
 
 def parse_urls_from_string(string):

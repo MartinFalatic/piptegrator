@@ -1,7 +1,7 @@
 
 PKGNAME = 'piptegrator'
 
-VERSION = '1.3.0'
+VERSION = '1.5.0rc1'
 
 DESCRIPTION = 'Piptegrator - Tools for managing requirements-driven projects'
 
@@ -14,7 +14,8 @@ CONSOLE_SCRIPTS = {
     },
 }
 
-PIP_COMPILE_CMD = 'pip-compile'
+PIP_COMPILE_CMD = ['uv', 'pip', 'compile']
+PIP_COMPILE_CMD_LEGACY = ['pip-compile']
 
 PIP_COMPILE_ENV_MODS = {
     'LC_ALL': 'C.UTF-8',
@@ -26,8 +27,3 @@ DEFAULT_TGT_ROOT = '.'
 
 DEFAULT_REQUIREMENTS_IN = 'requirements.in'
 DEFAULT_INDEX_URL = 'https://pypi.org/simple/'
-DEFAULT_BASE_BRANCH = 'develop'
-DEFAULT_BRANCH_PREFIX = 'piptegrator/'
-DEFAULT_PR_PREFIX = 'PIPTEGRATOR:'
-DEFAULT_PR_LABEL = 'piptegrator'
-DEFAULT_CLOSE_PRS = False

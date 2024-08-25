@@ -18,19 +18,14 @@ The main tool is `piptegrator`
 Given the configuration file `.piptegrator_config` (sample present in this repo), run:
 
 ```bash
-piptegrator --compile --noenvmods --upgrade --help
+piptegrator --compile --noenvmods --unsafe-package pip --upgrade --help
 ```
 
 For use _without_ a config file, specify the requirements input files as a comma delimited string, e.g.:
 
 ```bash
-piptegrator --compile --noenvmods --requirements test/requirements.in
+piptegrator --compile --noenvmods --unsafe-package pip --requirements test/requirements.in
 ```
-
-### Gitlab hooks (only with a config file)
-
-The `--commit` option is used to create and manage upgrade branches based on the changed `requirements.txt` files.
-This option requires a gitlab token `gitlab_infra_access_token` and optionally the pyup API key `pyup_api_key` in your test environment.
 
 ## Updating this package
 

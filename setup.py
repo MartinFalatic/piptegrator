@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 
-"""
-
-"""
-
-from __future__ import print_function
-
 from os import path
 from setuptools import setup
+
 from piptegrator import __config__ as config
 
 
@@ -27,20 +22,20 @@ setup(
     description=config.DESCRIPTION,
     author='Martin F. Falatic',
     author_email='martin@falatic.com',
-    copyright='Copyright (c) 2019-2021',
     license='MIT License',
-    keywords='pip pip-compile pip-tools requirements git gitlab github pyup',
+    keywords='pip pip-compile pip-tools requirements uv',
     url='https://github.com/MartinFalatic/piptegrator',
     classifiers=[
-        'License :: OSI Approved :: MIT License',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'Topic :: Utilities',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
-        'Development Status :: 5 - Production/Stable',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Topic :: Utilities',
     ],
     packages=[
         'piptegrator',
@@ -49,11 +44,9 @@ setup(
         'console_scripts': console_scripts,
     },
     install_requires=[
-        'configparser;python_version<"3.6"',
         'pip-tools',
-        'pygithub',
-        'python-gitlab',
         'requests',
+        'uv',
     ],
     extras_require={},
     package_data={},

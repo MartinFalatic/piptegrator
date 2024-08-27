@@ -5,6 +5,9 @@
 # Specify one or more requirements files to be analyzed
 requirements = test/requirements.in, test/requirements.tests.in
 
+# Specify override file if needed
+override = test/overrides.txt
+
 # Set the index url
 # For a private index, e.g. Nexus:
 # index_url = http://nexus.example.com:8081/repository/pypi-all/simple

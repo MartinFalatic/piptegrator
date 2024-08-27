@@ -88,8 +88,10 @@ urllib3==2.2.2
     #   -r ./test/requirements.in
     #   requests
     #   twine
-wheel==0.44.0
-    # via pip-tools
+wheel==0.43.0
+    # via
+    #   --override test/overrides.txt
+    #   pip-tools
 zipp==3.20.0
     # via importlib-metadata
 

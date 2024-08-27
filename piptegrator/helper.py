@@ -120,15 +120,17 @@ def setup():
     parser.add_argument('-U', '--upgrade', action='store_true',
                         help='Upgrade requirements')
     parser.add_argument('--requirements', type=str,
-                        help='Comma-delimited requirement.in file(s) (overrides config file)')
+                        help='Comma-delimited requirement.in file(s)')
+    parser.add_argument('--override', type=str,
+                        help='File with overridden requirements')
     parser.add_argument('--index-url', type=str,
-                        help='Override configured index-url')
+                        help='Specify the index-url')
     parser.add_argument('--noenvmods', action='store_true',
                         help='Don\'t modify the pip-compile environment settings')
     parser.add_argument('--teamcity-mode', action='store_true',
                         help='TeamCity mode (alternate output dir)')
     parser.add_argument('--legacy-tools', action='store_true',
-                        help='Transitional - use pip-tools instead of uv)')
+                        help='Transitional - uses pip-tools instead of uv')
     try:
         args, extra_args = parser.parse_known_args()
     except BaseException as e:
@@ -163,6 +165,15 @@ def setup():
         common.exit_with_error('Error: Requirements must be specified on the command line or in the config file', parser=parser)
     if len(PARAMS['requirements']) != len(set(PARAMS['requirements'])):
         common.exit_with_error('Error: Duplicate requirements specified', parser=parser)
+
+    common.set_param_from_config(PARAMS, config_data, 'default', 'override', None, item_type=str)
+    if args.override:
+        PARAMS['override'] = args.override
+    if PARAMS['override']:
+        if PARAMS['legacy_tools']:
+            common.exit_with_error('Error: Overrides are not supported with legacy tools', parser=parser)
+        else:
+            extra_args.extend(['--override', PARAMS['override']])
 
     common.set_param_from_config(PARAMS, config_data, 'default', 'index_url', None, item_type=str)
     if args.index_url:
@@ -200,6 +211,7 @@ def setup():
 
     print('-- Setup summary:')
     print('    Requirement basenames =', PARAMS['basenames'])
+    print('    Override file =', PARAMS['override'])
     print('    Upgrade =', PARAMS['upgrade'])
     print('    No env mods =', PARAMS['noenvmods'])
     print('    Source root =', PARAMS['src_root'])

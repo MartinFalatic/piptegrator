@@ -91,7 +91,7 @@ def regen_file(pip_compile_cmd, root_dir, basename, extension, requirements, met
         for req in requirements[basename]:
             if 'other' in req:
                 line = req['other']
-                if line.startswith('#    {} '.format(pip_compile_cmd)):
+                if line.startswith('#    {} '.format(' '.join(pip_compile_cmd))):
                     line = '#    {}  # --help for options'.format(PARAMS['this_script'])
             else:
                 reqname = req['reqname']
@@ -110,13 +110,17 @@ def regen_file(pip_compile_cmd, root_dir, basename, extension, requirements, met
     return 0
 
 
-def setup(args):
+def setup():
     parser = argparse.ArgumentParser(
         description=common.format_title(PARAMS['this_script']),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+    parser.add_argument('--compile', action='store_true',
+                        help='Compile and scrub requirements (always required)')
     parser.add_argument('-U', '--upgrade', action='store_true',
                         help='Upgrade requirements')
+    parser.add_argument('--requirements', type=str,
+                        help='Comma-delimited requirement.in file(s) (overrides config file)')
     parser.add_argument('--index-url', type=str,
                         help='Override configured index-url')
     parser.add_argument('--noenvmods', action='store_true',
@@ -125,12 +129,15 @@ def setup(args):
                         help='TeamCity mode (alternate output dir)')
     parser.add_argument('--legacy-tools', action='store_true',
                         help='Transitional - use pip-tools instead of uv)')
-    parser.add_argument('--requirements', type=str,
-                        help='Comma-delimited requirement.in file(s) (overrides config file)')
     try:
-        args, extra_args = parser.parse_known_args(args)
+        args, extra_args = parser.parse_known_args()
     except BaseException as e:
         raise e
+
+    print(common.format_title(PARAMS['this_script']))
+
+    if not args.compile:
+        common.exit_with_error('Error: no options specified', parser=parser)
 
     if args.upgrade:
         extra_args.append('--upgrade')
@@ -163,6 +170,25 @@ def setup(args):
     if PARAMS['index_url']:
         extra_args.extend(['--index-url', PARAMS['index_url']])
 
+    common.set_param_from_config(PARAMS, config_data, 'default', 'emit_index_url', None, item_type=bool)
+    # Will pass through if it's explicitly given on the command line, config file overrides
+    if PARAMS['emit_index_url']:
+        extra_args.extend(['--emit-index-url'])
+
+    common.set_param_from_config(PARAMS, config_data, 'default', 'no_strip_extras', None, item_type=bool)
+    # Will pass through if it's explicitly given on the command line, config file overrides
+    if PARAMS['no_strip_extras']:
+        extra_args.extend(['--no-strip-extras'])
+
+    common.set_param_from_config(PARAMS, config_data, 'default', 'unsafe_packages', None, item_type=str)
+    if PARAMS['unsafe_packages']:
+        if PARAMS['legacy_tools']:
+            option_name = '--unsafe-package'
+        else:
+            option_name = '--no-emit-package'
+        for unsafe_package in [r.strip() for r in PARAMS['unsafe_packages'].split(',')]:
+            extra_args.extend([option_name, unsafe_package])
+
     PARAMS['src_root'] = config.DEFAULT_SRC_ROOT
     if PARAMS['teamcity_mode']:
         common.set_param_from_config(PARAMS, config_data, 'default', 'teamcity_tgt_root', config.DEFAULT_TGT_ROOT, item_type=str)
@@ -184,10 +210,10 @@ def setup(args):
     print()
 
 
-def main(scriptname, args):
+def main(scriptname):
     PARAMS['this_script'] = scriptname
 
-    setup(args)
+    setup()
 
     all_rcs = []
     reqs_in = {}

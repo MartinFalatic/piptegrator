@@ -1,7 +1,23 @@
 # Sample configuration file
 
 [default]
-requirements = test/requirements.in
+
+# Specify one or more requirements files to be analyzed
+requirements = test/requirements.in, test/requirements.tests.in
+
+# Set the index url
+# For a private index, e.g. Nexus:
+# index_url = http://nexus.example.com:8081/repository/pypi-all/simple
 index_url = https://pypi.org/simple/
-# For a private index, e.g. Nexus: index_url = http://nexus.example.com:8081/repository/pypi-all/simple
+
+# Emit the index url in the header if true (1)
+emit_index_url = 1
+
+# Don't strip extras if true (1)
+no_strip_extras = 1
+
+# Omit unsafe packages if specified here
+unsafe_packages = pip, setuptools, distribute
+
+# Output to different directory (e.g., when using Teamcity)
 teamcity_tgt_root = piptegrator_output

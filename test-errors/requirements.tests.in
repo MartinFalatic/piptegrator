@@ -4,3 +4,5 @@ requests[use_chardet_on_py3]>=2.23.0  # Special version from https://www.example
 six>=1.16.0
 twine>=3.4.1
 urllib3>=1.25.9
+pytest
+flake8

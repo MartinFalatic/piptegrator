@@ -5,7 +5,7 @@
 backports-tarfile==1.2.0
     # via jaraco-context
 black==24.8.0
-    # via -r ./test/requirements.in
+    # via -r ./test-errors/requirements.in
 build==1.2.1
     # via pip-tools
 certifi==2024.7.4
@@ -53,7 +53,7 @@ packaging==24.1
 pathspec==0.12.1
     # via black
 pip-tools==7.4.1
-    # via -r ./test/requirements.in
+    # via -r ./test-errors/requirements.in
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2
@@ -70,22 +70,22 @@ readme-renderer==44.0
     # via twine
 requests[use-chardet-on-py3]==2.32.3  # Special version from https://www.example.com/requests-test
     # via
-    #   -r ./test/requirements.in
+    #   -r ./test-errors/requirements.in
     #   requests-toolbelt
     #   twine
 requests-toolbelt==1.0.0
     # via twine
 rfc3986==2.0.0
     # via twine
-rich==13.8.0
+rich==13.7.1
     # via twine
 six==1.16.0
-    # via -r ./test/requirements.in
+    # via -r ./test-errors/requirements.in
 twine==5.1.1
-    # via -r ./test/requirements.in
+    # via -r ./test-errors/requirements.in
 urllib3==2.2.2
     # via
-    #   -r ./test/requirements.in
+    #   -r ./test-errors/requirements.in
     #   requests
     #   twine
 wheel==0.44.0

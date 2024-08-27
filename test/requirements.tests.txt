@@ -5,7 +5,7 @@
 backports-tarfile==1.2.0
     # via jaraco-context
 black==24.8.0
-    # via -r ./test/requirements.in
+    # via -r ./test/requirements.tests.in
 build==1.2.1
     # via pip-tools
 certifi==2024.7.4
@@ -20,12 +20,16 @@ click==8.1.7
     #   pip-tools
 docutils==0.21.2
     # via readme-renderer
+flake8==7.1.1
+    # via -r ./test/requirements.tests.in
 idna==3.8
     # via requests
 importlib-metadata==8.4.0
     # via
     #   keyring
     #   twine
+iniconfig==2.0.0
+    # via pytest
 jaraco-classes==3.4.0
     # via keyring
 jaraco-context==6.0.1
@@ -36,6 +40,8 @@ keyring==25.3.0
     # via twine
 markdown-it-py==3.0.0
     # via rich
+mccabe==0.7.0
+    # via flake8
 mdurl==0.1.2
     # via markdown-it-py
 more-itertools==10.4.0
@@ -50,14 +56,21 @@ packaging==24.1
     # via
     #   black
     #   build
+    #   pytest
 pathspec==0.12.1
     # via black
 pip-tools==7.4.1
-    # via -r ./test/requirements.in
+    # via -r ./test/requirements.tests.in
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2
     # via black
+pluggy==1.5.0
+    # via pytest
+pycodestyle==2.12.1
+    # via flake8
+pyflakes==3.2.0
+    # via flake8
 pygments==2.18.0
     # via
     #   readme-renderer
@@ -66,11 +79,13 @@ pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
+pytest==8.3.2
+    # via -r ./test/requirements.tests.in
 readme-renderer==44.0
     # via twine
 requests[use-chardet-on-py3]==2.32.3  # Special version from https://www.example.com/requests-test
     # via
-    #   -r ./test/requirements.in
+    #   -r ./test/requirements.tests.in
     #   requests-toolbelt
     #   twine
 requests-toolbelt==1.0.0
@@ -80,12 +95,12 @@ rfc3986==2.0.0
 rich==13.8.0
     # via twine
 six==1.16.0
-    # via -r ./test/requirements.in
+    # via -r ./test/requirements.tests.in
 twine==5.1.1
-    # via -r ./test/requirements.in
+    # via -r ./test/requirements.tests.in
 urllib3==2.2.2
     # via
-    #   -r ./test/requirements.in
+    #   -r ./test/requirements.tests.in
     #   requests
     #   twine
 wheel==0.44.0

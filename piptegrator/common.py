@@ -13,6 +13,7 @@ from . import __config__ as config
 
 RE_WITH_COMMENT = re.compile(r'^([^#]+)(.*)$')
 RE_WITHOUT_COMMENT = re.compile(r'^([^#]+)()$')
+
 RE_GET_VERSION = re.compile(r'^(.*?)\s*(;|~=|<|<=|>|>=|==|===|\!=)(.*)$')
 RE_GET_VARIANT = re.compile(r'^(.*)\[(.*)\]$')
 
